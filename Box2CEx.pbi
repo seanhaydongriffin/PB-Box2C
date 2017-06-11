@@ -87,10 +87,10 @@ Procedure _Box2C_b2World_Animate_SFML(text)
       
       b2body_getposition(pb_b2Body_sfSprite(i)\b2Body, *body_pos_ptr)
       body_angle = b2body_getangle(pb_b2Body_sfSprite(i)\b2Body)
-      body_sprite_pos\x = 400 - (body_pos\x * 50)
+      body_sprite_pos\x = 400 + (body_pos\x * 50)
       body_sprite_pos\y = 300 - (body_pos\y * 50)
       _CSFML_sfSprite_setPosition(pb_b2Body_sfSprite(i)\sfSprite, body_sprite_pos)
-      _CSFML_sfSprite_setRotation(pb_b2Body_sfSprite(i)\sfSprite, Degree(body_angle))
+      _CSFML_sfSprite_setRotation(pb_b2Body_sfSprite(i)\sfSprite, -Degree(body_angle))
       _CSFML_sfRenderWindow_drawSprite(window, pb_b2Body_sfSprite(i)\sfSprite, #Null)
     EndIf
     
@@ -375,8 +375,8 @@ Procedure _Box2C_b2BodyArr_AddItem_SFML(type.i, position_x.f, position_y.f, angl
 EndProcedure
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 70
-; FirstLine = 59
+; CursorPosition = 92
+; FirstLine = 75
 ; Folding = --
 ; EnableUnicode
 ; EnableXP
