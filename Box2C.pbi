@@ -135,7 +135,7 @@ EndProcedure
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC Protofb_b2world_constructor(*world)
-fb_b2world_constructor.Protofb_b2world_constructor = GetFunction(1, "fb_b2world_constructor")
+Global fb_b2world_constructor.Protofb_b2world_constructor = GetFunction(1, "fb_b2world_constructor")
 
 
 ; #FUNCTION# ====================================================================================================================
@@ -153,8 +153,8 @@ fb_b2world_constructor.Protofb_b2world_constructor = GetFunction(1, "fb_b2world_
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-  PrototypeC.i Protob2world_createbody(*world, *bodyDef)
-  b2world_createbody.Protob2world_createbody = GetFunction(0, "b2world_createbody")
+PrototypeC.i Protob2world_createbody(*world, *bodyDef)
+Global b2world_createbody.Protob2world_createbody = GetFunction(0, "b2world_createbody")
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Box2C_b2Body_SetAwake
@@ -172,7 +172,7 @@ fb_b2world_constructor.Protofb_b2world_constructor = GetFunction(1, "fb_b2world_
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC Protob2body_setawake(*body, vec.l)
-b2body_setawake.Protob2body_setawake = GetFunction(0, "b2body_setawake")
+Global b2body_setawake.Protob2body_setawake = GetFunction(0, "b2body_setawake")
 
 
 ; #FUNCTION# ====================================================================================================================
@@ -192,7 +192,7 @@ b2body_setawake.Protob2body_setawake = GetFunction(0, "b2body_setawake")
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC.i Protob2body_createfixturefromshape(*body, *shape, density.f)
-b2body_createfixturefromshape.Protob2body_createfixturefromshape = GetFunction(0, "b2body_createfixturefromshape")
+Global b2body_createfixturefromshape.Protob2body_createfixturefromshape = GetFunction(0, "b2body_createfixturefromshape")
 
 
 ; #FUNCTION# ====================================================================================================================
@@ -213,7 +213,7 @@ b2body_createfixturefromshape.Protob2body_createfixturefromshape = GetFunction(0
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC Protob2world_step(*world, hz.f, velocityIterations.i, positionIterations.i)
-b2world_step.Protob2world_step = GetFunction(0, "b2world_step")
+Global b2world_step.Protob2world_step = GetFunction(0, "b2world_step")
 
 
 ; #FUNCTION# ====================================================================================================================
@@ -230,7 +230,7 @@ b2world_step.Protob2world_step = GetFunction(0, "b2world_step")
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC Protob2body_getposition(*body, *outPtr.Vec2)
-b2body_getposition.Protob2body_getposition = GetFunction(0, "b2body_getposition")
+Global b2body_getposition.Protob2body_getposition = GetFunction(0, "b2body_getposition")
 
 
 ; #FUNCTION# ====================================================================================================================
@@ -247,7 +247,7 @@ b2body_getposition.Protob2body_getposition = GetFunction(0, "b2body_getposition"
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC.f Protob2body_getangle(*body)
-b2body_getangle.Protob2body_getangle = GetFunction(0, "b2body_getangle")
+Global b2body_getangle.Protob2body_getangle = GetFunction(0, "b2body_getangle")
 
 ;Function _Box2C_b2Body_GetAngle(byval body_ptr As long ptr) As single
     
@@ -271,8 +271,8 @@ b2body_getangle.Protob2body_getangle = GetFunction(0, "b2body_getangle")
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-  PrototypeC Protob2world_setgravity(*world, *gravity.Vec2)
-  b2world_setgravity.Protob2world_setgravity = GetFunction(0, "b2world_setgravity")
+PrototypeC Protob2world_setgravity(*world, *gravity.Vec2)
+Global b2world_setgravity.Protob2world_setgravity = GetFunction(0, "b2world_setgravity")
 
 
 
@@ -290,7 +290,7 @@ b2body_getangle.Protob2body_getangle = GetFunction(0, "b2body_getangle")
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC.l Protob2world_getgravity(*world)
-b2world_getgravity.Protob2world_getgravity = GetFunction(0, "b2world_getgravity")
+Global b2world_getgravity.Protob2world_getgravity = GetFunction(0, "b2world_getgravity")
 
 
 
@@ -310,7 +310,7 @@ b2world_getgravity.Protob2world_getgravity = GetFunction(0, "b2world_getgravity"
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC Protob2fixture_setrestitution(*fixture, value.f)
-b2fixture_setrestitution.Protob2fixture_setrestitution = GetFunction(0, "b2fixture_setrestitution")
+Global b2fixture_setrestitution.Protob2fixture_setrestitution = GetFunction(0, "b2fixture_setrestitution")
   
 ;  Sub _Box2C_b2Fixture_SetRestitution(byval fixture_ptr As Long Ptr, byval value As single)
 	
@@ -334,7 +334,7 @@ b2fixture_setrestitution.Protob2fixture_setrestitution = GetFunction(0, "b2fixtu
 ; Example .......:
 ; ===============================================================================================================================
 PrototypeC Protob2fixture_setfriction(*fixture, value.f)
-b2fixture_setfriction.Protob2fixture_setfriction = GetFunction(0, "b2fixture_setfriction")
+Global b2fixture_setfriction.Protob2fixture_setfriction = GetFunction(0, "b2fixture_setfriction")
 
 
 ;Sub _Box2C_b2Fixture_SetFriction(byval fixture_ptr As Long Ptr, byval value As single)
@@ -343,7 +343,7 @@ b2fixture_setfriction.Protob2fixture_setfriction = GetFunction(0, "b2fixture_set
 ;End Sub
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 342
+; CursorPosition = 336
 ; FirstLine = 305
 ; Folding = -
 ; EnableUnicode
