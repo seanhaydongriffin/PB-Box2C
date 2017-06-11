@@ -47,6 +47,7 @@ EndStructure
 
 ; #GLOBALS# ===================================================================================================================
 Global world.l
+Global window.l
 
 Global Dim pb_b2Shape_sfTexture.pb_b2Shape_sfTexture_struct(1000)
 Global Dim pb_b2Body_sfSprite.pb_b2Body_sfSprite_struct(1000)
@@ -67,6 +68,48 @@ Global Dim pb_b2BodyArrCreated.i(1000)
 ; #MISCELLANEOUS FUNCTIONS# =====================================================================================================
 
 
+Procedure _Box2C_b2World_Animate_SFML(text)
+  
+  ;  _CSFML_sfRenderWindow_clear(window, white)
+  _CSFML_sfRenderWindow_clear_rgba(window, 255, 255, 255, 255)
+  ;  _CSFML_sfRenderWindow_clear_rgba(window, 0, 0, 0, 255)
+    
+  _CSFML_sfRenderWindow_drawText(window, text, #Null)
+
+  body_pos.Vec2
+  *body_pos_ptr = @body_pos
+  body_angle.f
+  body_sprite_pos.sfVector2f
+
+  For i = 0 To ArraySize(pb_b2Body_sfSprite())
+    
+    If pb_b2Body_sfSprite(i)\created = 1
+      
+      b2body_getposition(pb_b2Body_sfSprite(i)\b2Body, *body_pos_ptr)
+      body_angle = b2body_getangle(pb_b2Body_sfSprite(i)\b2Body)
+      body_sprite_pos\x = 400 - (body_pos\x * 50)
+      body_sprite_pos\y = 300 - (body_pos\y * 50)
+      _CSFML_sfSprite_setPosition(pb_b2Body_sfSprite(i)\sfSprite, body_sprite_pos)
+      _CSFML_sfSprite_setRotation(pb_b2Body_sfSprite(i)\sfSprite, Degree(body_angle))
+      _CSFML_sfRenderWindow_drawSprite(window, pb_b2Body_sfSprite(i)\sfSprite, #Null)
+    EndIf
+    
+  Next
+  
+  _CSFML_sfRenderWindow_display(window)
+
+  
+EndProcedure
+  
+
+Procedure _Box2C_b2Fixture_AddItem_SFML(body_sprite_index.i, shape_texture_index.i, density.f, restitution.f, friction.f)
+  
+  fixture_ptr.l
+  fixture_ptr = b2body_createfixturefromshape(pb_b2Body_sfSprite(body_sprite_index)\b2Body, @pb_b2Shape_sfTexture(shape_texture_index)\b2Shape, density)
+  b2fixture_setrestitution(fixture_ptr, restitution)
+  b2fixture_setfriction(fixture_ptr, friction)
+
+EndProcedure
 
 
 
@@ -332,8 +375,8 @@ Procedure _Box2C_b2BodyArr_AddItem_SFML(type.i, position_x.f, position_y.f, angl
 EndProcedure
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 192
-; FirstLine = 172
-; Folding = -
+; CursorPosition = 70
+; FirstLine = 59
+; Folding = --
 ; EnableUnicode
 ; EnableXP

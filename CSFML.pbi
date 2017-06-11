@@ -186,11 +186,12 @@ Structure sfContextSettings Align #PB_Structure_AlignC
 EndStructure
 
 Structure sfKeyEvent Align #PB_Structure_AlignC
-    T.i ; As sfEventType
-    Code.i ;.sfKeyCode
-    Alt.l ; As sfBool
-    Control.l ; As sfBool
-    Shift.l ; As sfBool
+    type.i ; As sfEventType
+    code.i ;.sfKeyCode
+    alt.l ; As sfBool
+    control.l ; As sfBool
+    shift.l   ; As sfBool
+    system.l
 EndStructure
 
 Structure sfTextEvent Align #PB_Structure_AlignC
@@ -230,22 +231,22 @@ Structure sfJoyButtonEvent Align #PB_Structure_AlignC
 EndStructure
 
 Structure sfSizeEvent Align #PB_Structure_AlignC
-    T.i ; As sfEventType
-    W.i ; As uinteger
-    H.i ; As uinteger
+    type.i ; As sfEventType
+    width.i ; As uinteger
+    height.i ; As uinteger
 EndStructure
 
 Structure sfEvent Align #PB_Structure_AlignC
 StructureUnion 
     type.i ; As sfEventType ;;< Type of the event
-    Key.sfKeyEvent
-    Text.sfTextEvent
-    MouseMove.sfMouseMoveEvent
-    MouseButton.sfMouseButtonEvent
-    MouseWheel.sfMouseWheelEvent
+    size.sfSizeEvent
+    key.sfKeyEvent
+    text.sfTextEvent
+    mouseMove.sfMouseMoveEvent
+    mouseButton.sfMouseButtonEvent
+    mouseWheel.sfMouseWheelEvent
     JoyMove.sfJoyMoveEvent
     JoyButton.sfJoyButtonEvent
-    Size.sfSizeEvent
 EndStructureUnion
 EndStructure
 
@@ -1127,8 +1128,8 @@ Global _CSFML_sfSprite_setOrigin.Protofb_sfSprite_setOrigin = GetFunction(6, "fb
 
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 916
-; FirstLine = 879
+; CursorPosition = 193
+; FirstLine = 216
 ; Folding = -
 ; EnableUnicode
 ; EnableXP
