@@ -3,7 +3,8 @@ XIncludeFile "Box2CEx.pbi"
 
 
 Declare fps_timer_proc(*Value)
-Declare check_events_timer_proc(*Value)
+;Declare check_events_timer_proc(*Value)
+;Declare animation_loop_proc(*Value)
 
 ; a box2c wrapper, built in freebasic, that works around the feature gap in purebasic for passing structures by value
 ;   and retrieving structures by value
@@ -35,20 +36,7 @@ body_shape_texture_index.i = _Box2C_b2Shape_sfTexture_AddItem_SFML(1, 4, -0.125,
 _Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(0, 0, -4, Radian(0), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, ground_shape_texture_index, 2.5, 0.5), ground_shape_texture_index, 0, 0, 0.1)
 _Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(0, 4.5, -2, Radian(45), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, ground_shape_texture_index, 2.5, 0.5), ground_shape_texture_index, 0, 0, 0.1)
 _Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(0, -4.5, -2, Radian(-45), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, ground_shape_texture_index, 2.5, 0.5), ground_shape_texture_index, 0, 0, 0.1)
-_Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(2, 0, 4, Radian(0), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, body_shape_texture_index, 0.125, 0.125), body_shape_texture_index, 1, 0.3, 0.1)
-
-; setup the Box2D fixtures
-; body-sprite index, shape-texture index, density, restitution, friction
-
-
-; setup the body Box2D shape and SFML texture combination
-
-; setup the body Box2D body and SFML sprite combination
-; type, position_x, position_y, angle, linearVelocity_x, linearVelocity_y, angularVelocity, linearDamping, angularDamping, allowSleep, awake, fixedRotation, bullet, active, gravityScale)
-
-; setup the body Box2D fixture
-; body-sprite index, shape-texture index, density, restitution, friction
-
+;_Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(2, 0, 6, Radian(0), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, body_shape_texture_index, 0.125, 0.125), body_shape_texture_index, 1, 0.3, 0.1)
 
 ; SFML stuff
 _CSFML_Startup()
@@ -60,7 +48,7 @@ text_pos\y = 10
 
 window = _CSFML_sfRenderWindow_create(mode, "fgh", 6, #Null)
 window_hwnd.l = _CSFML_sfRenderWindow_getSystemHandle(window)
-_CSFML_sfRenderWindow_setVerticalSyncEnabled(window, 1)
+_CSFML_sfRenderWindow_setVerticalSyncEnabled(window, 0)
 
 
 font.l = _CSFML_sfFont_createFromFile("arial.ttf")
@@ -74,10 +62,17 @@ _CSFML_sfText_setFillColor_rgba(info_text, 0, 0, 0, 255)
 Global num_bodies = 1
 Global num_frames.i = 0
 Global fps.i = 0
+Global key_code.i = -1
 frame_timer = ElapsedMilliseconds()
-;frame_timer = GetTickCount_()
-fps_timer = ElapsedMilliseconds()
 check_events_timer = ElapsedMilliseconds()
+;fps_timer = ElapsedMilliseconds()
+Global box_dropping_rate.i = 500
+box_dropping_timer = ElapsedMilliseconds()
+Global new_box_density.f = 1
+Global new_box_restitution.f = 0.3
+Global new_box_friction.f = 0.1
+
+CreateThread(@fps_timer_proc(), 1000)
 
 
 
@@ -85,11 +80,11 @@ check_events_timer = ElapsedMilliseconds()
 
 While (_CSFML_sfRenderWindow_isOpen(window))
   
-  If (ElapsedMilliseconds() - check_events_timer) > 100
+  ; every 50 ms check events and keyboard
+  If (ElapsedMilliseconds() - check_events_timer) > 50
     
-;    CreateThread(@check_events_timer_proc(), 100)
-    
-    
+    check_events_timer = ElapsedMilliseconds()
+
     While (_CSFML_sfRenderWindow_pollEvent(window, event))
       
       If event\type = #sfEvtClosed
@@ -99,50 +94,98 @@ While (_CSFML_sfRenderWindow_isOpen(window))
       
       If event\type = #sfEvtKeyPressed
         
-        Select event\key\code
+        key_code = event\key\code
+      ;  Debug (key_code)
+        
+        Select key_code
             
-          Case 0  ; a key
+          Case 16 ; q
             
-        ;    Debug ("aa")
-            _Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(2, 0, 4, Radian(0), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, body_shape_texture_index, 0.125, 0.125), body_shape_texture_index, 1, 0.3, 0.1)
-            num_bodies = num_bodies + 1
+            box_dropping_rate = box_dropping_rate + 10
             
+          Case 22 ; w
+            
+            box_dropping_rate = box_dropping_rate - 10
+            
+            If box_dropping_rate < 0
+              
+              box_dropping_rate = 0
+            EndIf
+            
+          Case 0  ; a
+              
+            new_box_density = new_box_density - 0.1
+            
+            If new_box_density < 0
+              
+              new_box_density = 0
+            EndIf
+            
+          Case 18 ; s
+            
+            new_box_density = new_box_density + 0.1
+
+          Case 25 ; z
+            
+            new_box_restitution = new_box_restitution - 0.1
+            
+            If new_box_restitution < 0
+              
+              new_box_restitution = 0
+            EndIf
+
+          Case 23 ; x
+            
+            new_box_restitution = new_box_restitution + 0.1
+            
+          Case 4 ; e
+            
+            new_box_friction = new_box_friction - 0.1
+            
+            If new_box_friction < 0
+              
+              new_box_friction = 0
+            EndIf
+            
+          Case 17 ; r
+            
+            new_box_friction = new_box_friction + 0.1
+
         EndSelect
-        
       EndIf
-  
     Wend
-
-    check_events_timer = ElapsedMilliseconds()
-
   EndIf
   
-  If (ElapsedMilliseconds() - fps_timer) > 1000
+  If (ElapsedMilliseconds() - box_dropping_timer) > (box_dropping_rate)
     
-    CreateThread(@fps_timer_proc(), 1000)
+    box_dropping_timer = ElapsedMilliseconds()
     
-    fps_timer = ElapsedMilliseconds()
-
+    If num_bodies < 1000
+      
+      _Box2C_b2Fixture_AddItem_SFML(_Box2C_b2Body_sfSprite_AddItem_SFML(2, 0, 6, Radian(0), 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, body_shape_texture_index, 0.125, 0.125), body_shape_texture_index, new_box_density, new_box_restitution, new_box_friction)
+      num_bodies = num_bodies + 1
+    EndIf
+    
   EndIf
-        
-;  If (ElapsedMilliseconds() - frame_timer) > ((1 / 60) * 1000)
+
+  ; every 16 ms (1 / 60th of a second) animate the frame
+      
+   ;  If (ElapsedMilliseconds() - frame_timer) > ((1 / 60) * 1000)
   If (ElapsedMilliseconds() - frame_timer) > (16)
-;  If (GetTickCount_() - frame_timer) > ((1 / 60) * 1000)
-;  If (GetTickCount_() - frame_timer) > (16)
     
-    ;b2world_step(world, (1.0 / 60.0), 6, 2)
-;    b2world_step(world, (1 + (num_bodies / 400)) / 60.0, 6, 2)
-;    b2world_step(world, (1.2 + (num_bodies / 300)) / 60.0, 6, 2)
-    b2world_step(world, (1.4 + (num_bodies / 300)) / 60.0, 6, 2)
-
-    
-    _Box2C_b2World_Animate_SFML(info_text)
-    
-    num_frames = num_frames + 1
     frame_timer = ElapsedMilliseconds()
-;    frame_timer = GetTickCount_()
-  EndIf
-  
+
+    b2world_step(world, (1.0 / 60.0), 6, 2)
+   ;    b2world_step(world, (1 + (num_bodies / 400)) / 60.0, 6, 2)
+   ;    b2world_step(world, (1.2 + (num_bodies / 300)) / 60.0, 6, 2)
+;     b2world_step(world, (1.4 + (num_bodies / 300)) / 60.0, 6, 2)
+     ;b2world_step(world, (1.0 + (num_bodies / 900)) / 60.0, 6, 2)
+   
+    _Box2C_b2World_Animate_SFML(info_text)
+       
+    num_frames = num_frames + 1
+  EndIf    
+   
 Wend
 
 
@@ -153,22 +196,43 @@ _Box2C_Shutdown()
 
 Procedure fps_timer_proc(*Value)
   
-  fps = num_frames
-  num_frames = 0
-  
-  _CSFML_sfText_setString(info_text, "press 'A' to add a box" + Chr(10) + "fps = " + Str(fps) + ", number of bodies = " + Str(num_bodies))
+  fps_timer = ElapsedMilliseconds()
 
-EndProcedure
-
-Procedure check_events_timer_proc(*Value)
+  While (_CSFML_sfRenderWindow_isOpen(window))
   
+    If (ElapsedMilliseconds() - fps_timer) > 1000
+      
+      fps_timer = ElapsedMilliseconds()
+      fps = num_frames
+      num_frames = 0
+      
+     ; Debug("fps = " + Str(fps) + ", number of bodies = " + Str(num_bodies))
+      _CSFML_sfText_setString(info_text, "Keys" + Chr(10) + 
+                                         "----" + Chr(10) + 
+                                         "press 'Q' or 'W' to adjust the rate of new boxes" + Chr(10) + 
+                                         "press 'A' or 'S' to adjust the density of the new boxes" + Chr(10) + 
+                                         "press 'Z' or 'X' to adjust the restitution of the new boxes" + Chr(10) + 
+                                         "press 'E' or 'R' to adjust the friction of the new boxes" + Chr(10) + 
+                                         "" + Chr(10) + 
+                                         "Info" + Chr(10) + 
+                                         "----" + Chr(10) + 
+                                         "Rate of new boxes = " + Str(box_dropping_rate) + " ms" + Chr(10) + 
+                                         "density of the new boxes = " + StrF(new_box_density, 2) + " kg/m squared" + Chr(10) + 
+                                         "restitution of the new boxes = " + StrF(new_box_restitution, 2) + Chr(10) + 
+                                         "friction of the new boxes = " + StrF(new_box_friction, 2) + Chr(10) + 
+                                         "number of bodies = " + Str(num_bodies) + Chr(10) + 
+                                         "fps = " + Str(fps))
+      
+    EndIf
+  Wend
+
 
 EndProcedure
 
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 158
-; FirstLine = 128
+; CursorPosition = 113
+; FirstLine = 79
 ; Folding = -
 ; EnableUnicode
 ; EnableXP
