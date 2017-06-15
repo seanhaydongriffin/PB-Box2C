@@ -946,6 +946,30 @@ Global _CSFML_sfText_setPosition.Protofb_sfText_setPosition = GetFunction(6, "fb
 ;    sfText_setPosition(text, position)
 ;End Sub
 
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _CSFML_sfSprite_setRotation
+; Description ...: Set the orientation of a sprite.
+;				   This function completely overwrites the previous rotation. See sfSprite_rotate to add an angle based on
+;				   the previous rotation instead. The default rotation of a sprite Sprite object is 0.
+; Syntax.........: _CSFML_sfSprite_setRotation($sprite, $angle)
+; Parameters ....: $sprite - Sprite object
+;				   $angle - New rotation, in degrees
+; Return values .: Success - True
+;				   Failure - 0
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......: _CSFML_sfSprite_create
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC Protofb_sfSprite_rotate(*sprite, angle.f)
+Global _CSFML_sfSprite_rotate.Protofb_sfSprite_rotate = GetFunction(3, "sfSprite_rotate")
+
+
+
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _CSFML_sfSprite_setRotation
 ; Description ...: Set the orientation of a sprite.
@@ -1128,8 +1152,8 @@ Global _CSFML_sfSprite_setOrigin.Protofb_sfSprite_setOrigin = GetFunction(6, "fb
 
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 193
-; FirstLine = 216
+; CursorPosition = 969
+; FirstLine = 943
 ; Folding = -
 ; EnableUnicode
 ; EnableXP

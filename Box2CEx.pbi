@@ -41,6 +41,7 @@ Structure pb_b2Body_sfSprite_struct
   created.i
   b2Body.l
   sfSprite.l
+  b2Fixture.l
 EndStructure
 
 ; ===============================================================================================================================
@@ -90,6 +91,10 @@ Procedure _Box2C_b2World_Animate_SFML(text)
       body_sprite_pos\x = 400 + (body_pos\x * 50)
       body_sprite_pos\y = 300 - (body_pos\y * 50)
       
+  ;    b2fixture_setdensity(pb_b2Body_sfSprite(i)\b2Fixture, (body_sprite_pos\y / 100) * 10000000000)
+  ;    xxx.f = b2fixture_getdensity(pb_b2Body_sfSprite(i)\b2Fixture)
+  ;    PrintN(Str(xxx))
+
       _CSFML_sfSprite_setPosition(pb_b2Body_sfSprite(i)\sfSprite, body_sprite_pos)
       _CSFML_sfSprite_setRotation(pb_b2Body_sfSprite(i)\sfSprite, -Degree(body_angle))
       _CSFML_sfRenderWindow_drawSprite(window, pb_b2Body_sfSprite(i)\sfSprite, #Null)
@@ -98,6 +103,12 @@ Procedure _Box2C_b2World_Animate_SFML(text)
   Next
   
   _CSFML_sfRenderWindow_display(window)
+  
+ ; If ArraySize(pb_b2Body_sfSprite()) > 5
+    
+  ;    xxx.f = b2fixture_getdensity(pb_b2Body_sfSprite(3)\b2Fixture)
+  ;    Debug(xxx)
+  ;EndIf
 
   
 EndProcedure
@@ -107,6 +118,7 @@ Procedure _Box2C_b2Fixture_AddItem_SFML(body_sprite_index.i, shape_texture_index
   
   fixture_ptr.l
   fixture_ptr = b2body_createfixturefromshape(pb_b2Body_sfSprite(body_sprite_index)\b2Body, @pb_b2Shape_sfTexture(shape_texture_index)\b2Shape, density)
+  pb_b2Body_sfSprite(body_sprite_index)\b2Fixture = fixture_ptr
   b2fixture_setrestitution(fixture_ptr, restitution)
   b2fixture_setfriction(fixture_ptr, friction)
 
@@ -508,8 +520,8 @@ Procedure _Box2C_b2BodyArr_AddItem_SFML(type.i, position_x.f, position_y.f, angl
 EndProcedure
 
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 159
-; FirstLine = 131
+; CursorPosition = 98
+; FirstLine = 72
 ; Folding = --
 ; EnableUnicode
 ; EnableXP

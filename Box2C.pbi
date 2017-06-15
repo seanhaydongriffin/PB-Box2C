@@ -342,9 +342,141 @@ Global b2fixture_setfriction.Protob2fixture_setfriction = GetFunction(0, "b2fixt
 ;	b2fixture_setfriction(fixture_ptr, value)
 ;End Sub
 
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Body_GetLinearVelocity
+; Description ...: Gets the linear velocity of a body (b2Body)
+; Syntax.........: _Box2C_b2Body_GetLinearVelocity($body_ptr)
+; Parameters ....: $body_ptr - a pointer to the body (b2Body)
+; Return values .: Success - the linear velocity as a two dimensional array
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC Protob2body_getlinearvelocity(*body, *outPtr.Vec2)
+Global b2body_getlinearvelocity.Protob2body_getlinearvelocity = GetFunction(0, "b2body_getlinearvelocity")
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Body_SetLinearVelocity
+; Description ...: Sets the velocity (vector) of a body (b2Body)
+; Syntax.........: _Box2C_b2Body_SetLinearVelocity($body_ptr, $x, $y)
+; Parameters ....: $body_ptr - a pointer to the body (b2Body)
+;				   $x - the horizontal velocity / vector
+;				   $y - the vertical velocity / vector
+; Return values .: Success - True
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC Protofb_b2body_setlinearvelocity(*sprite, *velocity)
+Global fb_b2body_setlinearvelocity.Protofb_b2body_setlinearvelocity = GetFunction(1, "fb_b2body_setlinearvelocity")
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Body_GetAngularVelocity
+; Description ...: Gets the angular velocity of a body (b2Body)
+; Syntax.........: _Box2C_b2Body_GetAngularVelocity($body_ptr)
+; Parameters ....: $body_ptr - a pointer to the body (b2Body)
+; Return values .: Success - the linear velocity as a two dimensional array
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC.f Protob2body_getangularvelocity(*body)
+Global b2body_getangularvelocity.Protob2body_getangularvelocity = GetFunction(0, "b2body_getangularvelocity")
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Body_SetAngularVelocity
+; Description ...: Sets the angular velocity (radians) of a body (b2Body)
+; Syntax.........: _Box2C_b2Body_SetAngularVelocity($body_ptr, $angular_velocity)
+; Parameters ....: $body_ptr - a pointer to the body (b2Body)
+;				   $angular_velocity - the angular velocity (radians)
+; Return values .: Success - True
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC Protob2body_setangularvelocity(*body, velocity.f)
+Global b2body_setangularvelocity.Protob2body_setangularvelocity = GetFunction(0, "b2body_setangularvelocity")
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Body_SetAngle
+; Description ...: Sets the angle (radians) of a body (b2Body)
+; Syntax.........: _Box2C_b2Body_SetAngle($body_ptr, $angle)
+; Parameters ....: $body_ptr - a pointer to the body (b2Body)
+;				   $angle - the angle (radians)
+; Return values .: Success - True
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC Protofb_b2body_settransform(*body, *position, angle.f)
+Global fb_b2body_settransform.Protofb_b2body_settransform = GetFunction(1, "fb_b2body_settransform")
+
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Fixture_GetDensity
+; Description ...: Gets the density of a fixture (b2Fixture)
+; Syntax.........: _Box2C_b2Fixture_GetDensity($fixture_ptr)
+; Parameters ....: $fixture_ptr - a pointer to the fixture (b2Fixture)
+; Return values .: Success - the density
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC.f Protob2fixture_getdensity(*fixture)
+Global b2fixture_getdensity.Protob2fixture_getdensity = GetFunction(0, "b2fixture_getdensity")
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Box2C_b2Fixture_SetDensity
+; Description ...: Sets the density of a fixture (b2Fixture)
+; Syntax.........: _Box2C_b2Fixture_SetDensity($fixture_ptr, $value)
+; Parameters ....: $fixture_ptr - a pointer to the fixture (b2Fixture)
+;				   $value - the density value
+; Return values .: Success - True
+;				   Failure - False
+; Author ........: Sean Griffin
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+PrototypeC Protob2fixture_setdensity(*fixture, value.f)
+Global b2fixture_setdensity.Protob2fixture_setdensity = GetFunction(0, "b2fixture_setdensity")
+
+
 ; IDE Options = PureBasic 5.40 LTS (Windows - x86)
-; CursorPosition = 336
-; FirstLine = 305
+; CursorPosition = 456
+; FirstLine = 437
 ; Folding = -
 ; EnableUnicode
 ; EnableXP
